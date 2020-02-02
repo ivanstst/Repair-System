@@ -16,6 +16,9 @@ public class Unit : MonoBehaviour
     private EnemyPoint Target;
     private bool CanAttack = true;
     private Animator AnimatorController;
+    private bool _dead;
+    public static bool Hitted;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,34 +27,39 @@ public class Unit : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (EnemyPoints[Current] != null)
+        if (!_dead)
         {
-            // Determine which direction to rotate towards
-            Vector3 targetDirection = EnemyPoints[Current].transform.position - transform.position;
-
-            // The step size is equal to speed times frame time.
-            float singleStep = 5 * Time.deltaTime;
-
-            // Rotate the forward vector towards the target direction by one step
-            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
-
-            // Calculate a rotation a step closer to the target and applies rotation to this object
-            transform.rotation = Quaternion.LookRotation(newDirection);
-        }
 
 
-        if (Target == null)
-        {
-            RunAnim();
-            transform.position = Vector3.MoveTowards(transform.position, EnemyPoints[Current].transform.position, MoveSpeed);
-        }
+            if (EnemyPoints[Current] != null)
+            {
+                // Determine which direction to rotate towards
+                Vector3 targetDirection = EnemyPoints[Current].transform.position - transform.position;
 
-        if (Target != null && CanAttack)
-        {
-            AttackAnim();
-            Attack();
+                // The step size is equal to speed times frame time.
+                float singleStep = 5 * Time.deltaTime;
+
+                // Rotate the forward vector towards the target direction by one step
+                Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
+
+                // Calculate a rotation a step closer to the target and applies rotation to this object
+                transform.rotation = Quaternion.LookRotation(newDirection);
+            }
+
+
+            if (Target == null)
+            {
+                RunAnim();
+                transform.position = Vector3.MoveTowards(transform.position, EnemyPoints[Current].transform.position, MoveSpeed);
+            }
+
+            if (Target != null && CanAttack)
+            {
+                AttackAnim();
+                Attack();
+            }
         }
     }
 
@@ -100,6 +108,10 @@ public class Unit : MonoBehaviour
 
     private void Attack()
     {
+        if (!Hitted)
+        {
+            Hitted = true;
+        }
         Debug.Log("Attack");
         Target.TakeDamage(Damage);
         Invoke("CoolDownAttack", AttackSpeed);
@@ -112,6 +124,7 @@ public class Unit : MonoBehaviour
     private void Die()
     {
         DieAnim();
+        _dead = true;
         OnDie.Invoke(this);
         Invoke("DestroyMe", 5);
     }

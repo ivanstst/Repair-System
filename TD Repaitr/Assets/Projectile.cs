@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     private Unit _unit;
     public float Speed;
     public Tower parent;
+    public GameObject bomb;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,7 @@ public class Projectile : MonoBehaviour
         if (unit != null && unit == _unit)
         {
             unit.TakeDamage(parent.Damage);
+            Instantiate(bomb, transform.position, transform.rotation);
             Destroy(gameObject);
         }
     }

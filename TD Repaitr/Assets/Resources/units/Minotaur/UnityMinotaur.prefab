@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 4
-  MoveSpeed: 0.05
+  MoveSpeed: 0.2
   EnemyPoints: []
   Damage: 5
   AttackSpeed: 1

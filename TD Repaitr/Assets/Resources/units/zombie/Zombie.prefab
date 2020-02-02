@@ -109,8 +109,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 1
-  MoveSpeed: 0.1
+  MoveSpeed: 0.05
   EnemyPoints: []
+  Damage: 2
+  AttackSpeed: 1
+  CanAttack: 1
 --- !u!54 &6989221095956212837
 Rigidbody:
   m_ObjectHideFlags: 0
